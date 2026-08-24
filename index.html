@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Prompt para Eventos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen py-10 px-4 flex flex-col justify-between transition-colors duration-300">
+
+    <div class="max-w-3xl w-full mx-auto bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        
+        <!-- Cabeçalho com Botão de Tema -->
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-6 sm:p-8 text-center relative">
+            <!-- Botão de Alternar Tema -->
+            <button onclick="toggleTheme()" class="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-full backdrop-blur-md transition shadow-md cursor-pointer" aria-label="Alternar Tema">
+                <!-- Ícone Sol -->
+                <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <!-- Ícone Lua -->
+                <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Gerador de Prompt para Eventos</h1>
+            <p class="text-indigo-100 text-sm mt-2">Preencha os dados abaixo para estruturar o prompt perfeito de forma profissional.</p>
+        </div>
+
+        <!-- Formulário -->
+        <div class="p-6 sm:p-10 space-y-6">
+            
+            <!-- Grid de Informações -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Data do Evento</label>
+                    <input type="text" id="dataEvento" placeholder="Ex.: 25 de Outubro de 2026" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Horário do Evento</label>
+                    <input type="text" id="horaEvento" placeholder="Ex.: 19:30" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Local do Evento</label>
+                    <input type="text" id="localEvento" placeholder="Ex.: Auditório Principal / Online" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Proporção</label>
+                    <input type="text" id="proporcao" placeholder="Ex.: 1:1, 4:5, 16:9" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Do que se trata</label>
+                <input type="text" id="trata" placeholder="Ex.: Workshop prático sobre IA para negócios" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Tema</label>
+                <input type="text" id="tema" placeholder="Ex.: Tecnologia e Inovação" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Identidade Visual</label>
+                <textarea id="identidadeVisual" rows="3" placeholder="Ex.: Cores azul escuro e dourado, estilo minimalista..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+            </div>
+
+            <!-- Botão Gerar -->
+            <button onclick="gerarPrompt()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all duration-200 cursor-pointer text-base">
+                Gerar Prompt
+            </button>
+
+            <!-- Área de Resultado -->
+            <div id="resultadoContainer" class="hidden mt-6 space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Prompt Gerado:</span>
+                    <button onclick="copiarPrompt()" id="btnCopiar" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-300 text-xs px-3 py-1.5 rounded-lg font-semibold transition">
+                        Copiar Prompt
+                    </button>
+                </div>
+                <pre id="outputPrompt" class="bg-slate-900 text-indigo-200 p-4 rounded-xl border border-slate-800 text-xs overflow-x-auto whitespace-pre-wrap font-mono shadow-inner"></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400 space-y-2">
+        <p>Desenvolvido por <span class="font-bold text-slate-700 dark:text-slate-200">Weslley Bonifacio</span></p>
+        <div>
+            <span>Em caso de dúvida </span>
+            <a href="https://wa.me/5544999379434?text=Estou%20com%20dificuldades%20em%20criar%20meu%20prompt%20e%20preciso%20de%20ajuda" 
+               target="_blank" 
+               class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-1 rounded-full text-xs shadow-md transition duration-200">
+                <span>clique aqui</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const iconSun = document.getElementById('iconSun');
+            const iconMoon = document.getElementById('iconMoon');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                iconSun.classList.remove('block');
+                iconSun.classList.add('hidden');
+                iconMoon.classList.remove('hidden');
+                iconMoon.classList.add('block');
+            } else {
+                html.classList.add('dark');
+                iconMoon.classList.remove('block');
+                iconMoon.classList.add('hidden');
+                iconSun.classList.remove('hidden');
+                iconSun.classList.add('block');
+            }
+        }
+
+        function gerarPrompt() {
+            const dia = document.getElementById('dataEvento').value || "[INSERIR DATA]";
+            const hora = document.getElementById('horaEvento').value || "[INSERIR HORÁRIO]";
+            const local = document.getElementById('localEvento').value || "[INSERIR LOCAL]";
+            const trata = document.getElementById('trata').value || "[DESCREVER BREVEMENTE O OBJETIVO OU ASSUNTO DO EVENTO]";
+            const tema = document.getElementById('tema').value || "[INSERIR TEMA PRINCIPAL]";
+            const proporcao = document.getElementById('proporcao').value || "[INSERIR PROPORÇÃO, EX.: 1:1, 4:5, 16:9]";
+            const identidade = document.getElementById('identidadeVisual').value || "[DESCREVER CORES, ESTILO, TIPOGRAFIA, CLIMA E ELEMENTOS VISUAIS]";
+
+            const promptObj = {
+                "evento": {
+                    "dia_do_evento": dia,
+                    "hora_do_evento": hora,
+                    "local_do_evento": local,
+                    "do_que_trata": trata,
+                    "tema": tema
+                },
+                "imagem": {
+                    "proporcao": proporcao,
+                    "identidade_visual": identidade,
+                    "composicao": {
+                        "foco": "Dar destaque às informações mais importantes do evento",
+                        "hierarquia_visual": "Organizar as informações de forma clara, elegante e de fácil leitura",
+                        "quantidade_de_elementos": "Utilizar poucos elementos visuais, evitando poluição e excesso de informações"
+                    }
+                },
+                "logos": {
+                    "utilizar_logos_anexadas": true,
+                    "posicao": "Parte superior da imagem",
+                    "preservacao": "Manter as logos exatamente como estão nos anexos",
+                    "alterar_logo": false,
+                    "alterar_cor_da_logo": false,
+                    "distorcer_logo": false
+                },
+                "pessoa_anexada": {
+                    "se_houver": {
+                        "utilizar_imagem_original": true,
+                        "fidelidade": "Utilizar a pessoa 100% igual à imagem anexada",
+                        "rosto": "Não alterar o rosto",
+                        "caracteristicas_fisicas": "Não alterar nenhuma característica física",
+                        "roupas": "Não alterar as roupas",
+                        "expressao": "Não alterar a expressão facial",
+                        "identidade": "Preservar integralmente a identidade e aparência da pessoa"
+                    },
+                    "se_nao_houver": {
+                        "utilizar_desenho": true,
+                        "estilo": "Desenho leve, elegante e relacionado ao tema do evento",
+                        "objetivo": "Complementar a composição sem competir com as informações principais"
+                    }
+                },
+                "direcao_criativa": {
+                    "estilo": "Profissional, moderno, visualmente equilibrado e adequado para divulgação de eventos",
+                    "legibilidade": "Todas as informações essenciais devem ser facilmente identificadas",
+                    "texto": "Evitar excesso de texto e priorizar informações essenciais",
+                    "emocional": "Utilizar uma ou, no máximo, duas frases emocionais de efeito"
+                },
+                "Prompt Negativo": "Não tenha muitos elementos visuais\nDê foco nas informações importantes\nEvitar colocar muito texto\nColocar uma ou no máximo duas frases de emocional de efeito\nNão alterer a logo\nNão alterar a cor da logo"
+            };
+
+            const jsonString = JSON.stringify(promptObj, null, 2);
+            document.getElementById('outputPrompt').textContent = jsonString;
+            document.getElementById('resultadoContainer').classList.remove('hidden');
+            document.getElementById('resultadoContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copiarPrompt() {
+            const textoCodigo = document.getElementById('outputPrompt').textContent;
+            navigator.clipboard.writeText(textoCodigo).then(() => {
+                const btn = document.getElementById('btnCopiar');
+                btn.textContent = "Copiado! ✓";
+                btn.classList.add('bg-emerald-600', 'text-white');
+                setTimeout(() => {
+                    btn.textContent = "Copiar Prompt";
+                    btn.classList.remove('bg-emerald-600', 'text-white');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
