@@ -1,217 +1,1215 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Prompt para Eventos</title>
+
+    <title>Gerador de Prompt para Eventos | @wes.bonifacio</title>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
-        }
-    </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen py-10 px-4 flex flex-col justify-between transition-colors duration-300">
-
-    <div class="max-w-3xl w-full mx-auto bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        
-        <!-- Cabeçalho com Botão de Tema -->
-        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-6 sm:p-8 text-center relative">
-            <!-- Botão de Alternar Tema -->
-            <button onclick="toggleTheme()" class="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-full backdrop-blur-md transition shadow-md cursor-pointer" aria-label="Alternar Tema">
-                <!-- Ícone Sol -->
-                <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <!-- Ícone Lua -->
-                <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-            </button>
-
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Gerador de Prompt para Eventos</h1>
-            <p class="text-indigo-100 text-sm mt-2">Preencha os dados abaixo para estruturar o prompt perfeito de forma profissional.</p>
-        </div>
-
-        <!-- Formulário -->
-        <div class="p-6 sm:p-10 space-y-6">
-            
-            <!-- Grid de Informações -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Data do Evento</label>
-                    <input type="text" id="dataEvento" placeholder="Ex.: 25 de Outubro de 2026" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Horário do Evento</label>
-                    <input type="text" id="horaEvento" placeholder="Ex.: 19:30" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Local do Evento</label>
-                    <input type="text" id="localEvento" placeholder="Ex.: Auditório Principal / Online" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Proporção</label>
-                    <input type="text" id="proporcao" placeholder="Ex.: 1:1, 4:5, 16:9" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Do que se trata</label>
-                <input type="text" id="trata" placeholder="Ex.: Workshop prático sobre IA para negócios" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Tema</label>
-                <input type="text" id="tema" placeholder="Ex.: Tecnologia e Inovação" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Identidade Visual</label>
-                <textarea id="identidadeVisual" rows="3" placeholder="Ex.: Cores azul escuro e dourado, estilo minimalista..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
-            </div>
-
-            <!-- Botão Gerar -->
-            <button onclick="gerarPrompt()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all duration-200 cursor-pointer text-base">
-                Gerar Prompt
-            </button>
-
-            <!-- Área de Resultado -->
-            <div id="resultadoContainer" class="hidden mt-6 space-y-3">
-                <div class="flex justify-between items-center">
-                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Prompt Gerado:</span>
-                    <button onclick="copiarPrompt()" id="btnCopiar" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-300 text-xs px-3 py-1.5 rounded-lg font-semibold transition">
-                        Copiar Prompt
-                    </button>
-                </div>
-                <pre id="outputPrompt" class="bg-slate-900 text-indigo-200 p-4 rounded-xl border border-slate-800 text-xs overflow-x-auto whitespace-pre-wrap font-mono shadow-inner"></pre>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Rodapé -->
-    <footer class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400 space-y-2">
-        <p>Desenvolvido por <span class="font-bold text-slate-700 dark:text-slate-200">Weslley Bonifacio</span></p>
-        <div>
-            <span>Em caso de dúvida </span>
-            <a href="https://wa.me/5544999379434?text=Estou%20com%20dificuldades%20em%20criar%20meu%20prompt%20e%20preciso%20de%20ajuda" 
-               target="_blank" 
-               class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-1 rounded-full text-xs shadow-md transition duration-200">
-                <span>clique aqui</span>
-            </a>
-        </div>
-    </footer>
-
-    <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const iconSun = document.getElementById('iconSun');
-            const iconMoon = document.getElementById('iconMoon');
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                iconSun.classList.remove('block');
-                iconSun.classList.add('hidden');
-                iconMoon.classList.remove('hidden');
-                iconMoon.classList.add('block');
-            } else {
-                html.classList.add('dark');
-                iconMoon.classList.remove('block');
-                iconMoon.classList.add('hidden');
-                iconSun.classList.remove('hidden');
-                iconSun.classList.add('block');
+            theme: {
+                extend: {
+                    boxShadow: {
+                        soft: '0 20px 60px rgba(15, 23, 42, 0.08)',
+                        glow: '0 15px 40px rgba(124, 58, 237, 0.25)'
+                    }
+                }
             }
         }
+    </script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-light {
+            background:
+                radial-gradient(circle at 10% 10%, rgba(255,255,255,.22), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(255,255,255,.12), transparent 25%),
+                linear-gradient(135deg, #7c3aed, #9333ea, #a855f7);
+        }
+
+        .dark .hero-light {
+            background:
+                radial-gradient(circle at 10% 10%, rgba(255,255,255,.05), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(168,85,247,.12), transparent 25%),
+                linear-gradient(135deg, #140b2d, #24103d, #321252);
+        }
+
+        .field-focus {
+            transition: all .2s ease;
+        }
+
+        .field-focus:focus {
+            transform: translateY(-1px);
+        }
+
+        .instagram-button {
+            transition: all .25s ease;
+        }
+
+        .instagram-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 min-h-screen transition-colors duration-300 dark:bg-[#0c0814] dark:text-slate-100">
+
+    <!-- Fundo decorativo -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-violet-300/20 dark:bg-purple-700/10 blur-[120px] rounded-full"></div>
+
+        <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-300/20 dark:bg-violet-900/10 blur-[120px] rounded-full"></div>
+
+    </div>
+
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+
+        <!-- CARD PRINCIPAL -->
+        <div class="bg-white dark:bg-[#120d1c] rounded-[2rem] shadow-soft dark:shadow-black/30 border border-slate-200 dark:border-purple-900/30 overflow-hidden">
+
+
+            <!-- HERO -->
+            <section class="relative overflow-hidden hero-light text-white">
+
+
+                <!-- BOTÃO TEMA -->
+                <button
+                    onclick="toggleTheme()"
+                    class="absolute top-5 right-5 sm:top-7 sm:right-7 w-11 h-11 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 backdrop-blur-xl flex items-center justify-center transition-all hover:scale-105"
+                    aria-label="Alternar tema"
+                >
+
+                    <!-- Lua -->
+                    <svg
+                        id="iconMoon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                        />
+                    </svg>
+
+
+                    <!-- Sol -->
+                    <svg
+                        id="iconSun"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 hidden"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
+                    </svg>
+
+                </button>
+
+
+                <div class="max-w-4xl mx-auto text-center px-6 py-16 sm:py-24">
+
+
+                    <!-- ÍCONE PRINCIPAL -->
+                    <div class="mx-auto mb-7 w-16 h-16 rounded-2xl bg-white/15 border border-white/20 backdrop-blur-xl flex items-center justify-center shadow-xl">
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-8 h-8"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.8"
+                                d="M12 6.253v11.494m-9-5.747h18M5.636 5.636l12.728 12.728M5.636 18.364L18.364 5.636"
+                            />
+                        </svg>
+
+                    </div>
+
+
+                    <!-- SUBTÍTULO -->
+                    <p class="text-violet-100 text-xs sm:text-sm font-bold uppercase tracking-[0.25em] mb-5">
+
+                        Gerador Inteligente de Prompts
+
+                    </p>
+
+
+                    <!-- TÍTULO -->
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.05]">
+
+                        Crie Prompts
+                        <span class="block text-violet-100 mt-2">
+                            Profissionais para Divulgação
+                        </span>
+
+                    </h1>
+
+
+                    <!-- DESCRIÇÃO -->
+                    <p class="mt-7 max-w-3xl mx-auto text-violet-100 text-sm sm:text-lg leading-relaxed">
+
+                        Preencha as informações do seu evento, gere e copie o prompt,
+                        cole no ChatGPT ou em outra Inteligência Artificial junto com
+                        a sua logo.
+
+                    </p>
+
+
+                    <!-- INSTAGRAM -->
+                    <div class="mt-10">
+
+                        <a
+                            href="https://www.instagram.com/wes.bonifacio/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="instagram-button inline-flex items-center gap-2 text-sm font-semibold bg-white/15 hover:bg-white/25 px-5 py-3 rounded-full border border-white/20 backdrop-blur-md"
+                        >
+
+                            <!-- Ícone Instagram -->
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <rect
+                                    width="20"
+                                    height="20"
+                                    x="2"
+                                    y="2"
+                                    rx="5"
+                                    ry="5"
+                                ></rect>
+
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="4"
+                                ></circle>
+
+                                <circle
+                                    cx="17"
+                                    cy="7"
+                                    r="1"
+                                    fill="currentColor"
+                                ></circle>
+
+                            </svg>
+
+                            @wes.bonifacio
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FORMULÁRIO -->
+            <section class="p-5 sm:p-10 lg:p-14">
+
+
+                <!-- TÍTULO DO FORMULÁRIO -->
+                <div class="mb-10">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-11 h-11 rounded-xl bg-violet-50 dark:bg-purple-500/10 text-violet-600 dark:text-purple-300 flex items-center justify-center">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 4v16m8-8H4"
+                                />
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
+
+                                Informações do Evento
+
+                            </h2>
+
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+
+                                Preencha os campos abaixo para gerar seu prompt.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEÇÃO INFORMAÇÕES -->
+                <div class="bg-slate-50 dark:bg-[#0e0917] border border-slate-200 dark:border-purple-900/30 rounded-3xl p-5 sm:p-7 mb-6">
+
+
+                    <div class="flex items-center gap-3 mb-6">
+
+                        <div class="w-9 h-9 rounded-lg bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/30 flex items-center justify-center">
+
+                            📅
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-bold text-slate-900 dark:text-white">
+
+                                Informações Básicas
+
+                            </h3>
+
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+
+                                Dados principais do evento.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+
+                        <!-- DATA -->
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                Data do Evento
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="dataEvento"
+                                placeholder="Ex.: 25 de Outubro de 2026"
+                                class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                            >
+
+                        </div>
+
+
+                        <!-- HORÁRIO -->
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                Horário
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="horaEvento"
+                                placeholder="Ex.: 19:30"
+                                class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                            >
+
+                        </div>
+
+
+                        <!-- LOCAL -->
+                        <div class="md:col-span-2">
+
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                Local do Evento
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="localEvento"
+                                placeholder="Ex.: Auditório Principal / Online / Rua Exemplo, 123"
+                                class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEÇÃO DIREÇÃO CRIATIVA -->
+                <div class="bg-slate-50 dark:bg-[#0e0917] border border-slate-200 dark:border-purple-900/30 rounded-3xl p-5 sm:p-7 mb-6">
+
+
+                    <div class="flex items-center gap-3 mb-6">
+
+                        <div class="w-9 h-9 rounded-lg bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/30 flex items-center justify-center">
+
+                            🎨
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-bold text-slate-900 dark:text-white">
+
+                                Direção Criativa
+
+                            </h3>
+
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+
+                                Defina o conceito visual da sua arte.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="space-y-5">
+
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+
+                            <!-- TEMA -->
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                    Tema Principal
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="tema"
+                                    placeholder="Ex.: Tecnologia e Inovação"
+                                    class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                                >
+
+                            </div>
+
+
+                            <!-- PROPORÇÃO -->
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                    Proporção da Arte
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="proporcao"
+                                    placeholder="Ex.: 1:1, 4:5, 9:16 ou 16:9"
+                                    class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DO QUE SE TRATA -->
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                Do que se trata?
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="trata"
+                                placeholder="Ex.: Workshop prático sobre Inteligência Artificial para negócios"
+                                class="field-focus w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                            >
+
+                            <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-2">
+
+                                Esta informação será utilizada apenas como contexto para orientar a Inteligência Artificial.
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- IDENTIDADE VISUAL -->
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-purple-100 mb-2">
+
+                                Identidade Visual
+
+                            </label>
+
+                            <textarea
+                                id="identidadeVisual"
+                                rows="4"
+                                placeholder="Ex.: Azul escuro e dourado, estilo minimalista, moderno, elegante e sofisticado..."
+                                class="field-focus resize-none w-full bg-white dark:bg-[#171020] border border-slate-200 dark:border-purple-900/40 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 dark:focus:border-purple-500 transition"
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÃO -->
+                <button
+                    onclick="gerarPrompt()"
+                    class="group relative overflow-hidden w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 dark:from-purple-700 dark:via-violet-700 dark:to-purple-900 hover:from-violet-500 hover:via-purple-500 hover:to-fuchsia-500 text-white font-bold py-5 rounded-2xl shadow-glow transition-all duration-300 hover:-translate-y-1"
+                >
+
+                    <span class="relative flex items-center justify-center gap-3">
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 group-hover:rotate-12 transition-transform"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+
+                        </svg>
+
+                        Gerar Meu Prompt
+
+                    </span>
+
+                </button>
+
+
+                <!-- RESULTADO -->
+                <div id="resultadoContainer" class="hidden mt-8">
+
+                    <div class="rounded-3xl overflow-hidden border border-slate-200 dark:border-purple-900/30 bg-white dark:bg-[#0e0917] shadow-lg">
+
+
+                        <!-- CABEÇALHO RESULTADO -->
+                        <div class="p-5 sm:p-6 border-b border-slate-200 dark:border-purple-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+                            <div>
+
+                                <div class="flex items-center gap-2">
+
+                                    <span class="flex w-3 h-3 rounded-full bg-emerald-500"></span>
+
+                                    <h3 class="font-extrabold text-slate-900 dark:text-white">
+
+                                        Prompt Pronto para Usar
+
+                                    </h3>
+
+                                </div>
+
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+
+                                    Copie o prompt e cole no ChatGPT ou em outra IA junto com sua logo.
+
+                                </p>
+
+                            </div>
+
+
+                            <!-- BOTÃO COPIAR -->
+                            <button
+                                onclick="copiarPrompt()"
+                                id="btnCopiar"
+                                class="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white px-5 py-3 rounded-xl text-sm font-bold transition shadow-lg shadow-violet-600/20"
+                            >
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-4 4h6a2 2 0 012 2v6a2 2 0 01-2 2h-6a2 2 0 01-2-2v-6a2 2 0 012-2z"
+                                    />
+
+                                </svg>
+
+                                <span id="textoBtnCopiar">
+
+                                    Copiar Prompt
+
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- PROMPT -->
+                        <div class="p-3 sm:p-5">
+
+                            <pre
+                                id="outputPrompt"
+                                class="max-h-[600px] overflow-auto bg-slate-950 dark:bg-[#09060d] text-violet-200 dark:text-purple-200 p-5 sm:p-6 rounded-2xl border border-slate-800 dark:border-purple-950 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-mono shadow-inner"
+                            ></pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- RODAPÉ -->
+        <footer class="py-10 text-center">
+
+            <p class="text-sm text-slate-500 dark:text-purple-300/60">
+
+                Desenvolvido por
+
+                <span class="font-bold text-slate-800 dark:text-white">
+
+                    Weslley Bonifacio
+
+                </span>
+
+            </p>
+
+
+            <div class="mt-4">
+
+                <a
+                    href="https://wa.me/5544999379434?text=Estou%20com%20dificuldades%20em%20criar%20meu%20prompt%20e%20preciso%20de%20ajuda"
+                    target="_blank"
+                    class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-5 py-2.5 rounded-full text-sm shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5"
+                >
+
+                    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+
+                    Precisa de ajuda? Clique aqui
+
+                </a>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           CONTROLE DE TEMA
+        ========================================= */
+
+        function updateThemeIcons() {
+
+            const html = document.documentElement;
+
+            const iconSun =
+                document.getElementById('iconSun');
+
+            const iconMoon =
+                document.getElementById('iconMoon');
+
+            const isDark =
+                html.classList.contains('dark');
+
+            iconSun.classList.toggle(
+                'hidden',
+                !isDark
+            );
+
+            iconMoon.classList.toggle(
+                'hidden',
+                isDark
+            );
+
+        }
+
+
+        function toggleTheme() {
+
+            const html =
+                document.documentElement;
+
+            const isDark =
+                html.classList.toggle('dark');
+
+            localStorage.setItem(
+                'theme',
+                isDark ? 'dark' : 'light'
+            );
+
+            updateThemeIcons();
+
+        }
+
+
+        /* =========================================
+           TEMA PADRÃO: CLARO
+        ========================================= */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            () => {
+
+                const savedTheme =
+                    localStorage.getItem('theme');
+
+                if (savedTheme === 'dark') {
+
+                    document.documentElement
+                        .classList
+                        .add('dark');
+
+                } else {
+
+                    document.documentElement
+                        .classList
+                        .remove('dark');
+
+                }
+
+                updateThemeIcons();
+
+            }
+        );
+
+
+        /* =========================================
+           GERAR PROMPT
+        ========================================= */
 
         function gerarPrompt() {
-            const dia = document.getElementById('dataEvento').value || "[INSERIR DATA]";
-            const hora = document.getElementById('horaEvento').value || "[INSERIR HORÁRIO]";
-            const local = document.getElementById('localEvento').value || "[INSERIR LOCAL]";
-            const trata = document.getElementById('trata').value || "[DESCREVER BREVEMENTE O OBJETIVO OU ASSUNTO DO EVENTO]";
-            const tema = document.getElementById('tema').value || "[INSERIR TEMA PRINCIPAL]";
-            const proporcao = document.getElementById('proporcao').value || "[INSERIR PROPORÇÃO, EX.: 1:1, 4:5, 16:9]";
-            const identidade = document.getElementById('identidadeVisual').value || "[DESCREVER CORES, ESTILO, TIPOGRAFIA, CLIMA E ELEMENTOS VISUAIS]";
+
+            const dia =
+                document.getElementById('dataEvento').value
+                || "[INSERIR DATA]";
+
+            const hora =
+                document.getElementById('horaEvento').value
+                || "[INSERIR HORÁRIO]";
+
+            const local =
+                document.getElementById('localEvento').value
+                || "[INSERIR LOCAL]";
+
+            const trata =
+                document.getElementById('trata').value
+                || "[DESCREVER BREVEMENTE O OBJETIVO OU ASSUNTO DO EVENTO]";
+
+            const tema =
+                document.getElementById('tema').value
+                || "[INSERIR TEMA PRINCIPAL]";
+
+            const proporcao =
+                document.getElementById('proporcao').value
+                || "[INSERIR PROPORÇÃO, EX.: 1:1, 4:5, 9:16 (RETRATO), 16:9 (PAISAGEM)]";
+
+            const identidade =
+                document.getElementById('identidadeVisual').value
+                || "[DESCREVER CORES, ESTILO, TIPOGRAFIA, CLIMA E ELEMENTOS VISUAIS]";
+
 
             const promptObj = {
+
                 "evento": {
+
                     "dia_do_evento": dia,
+
                     "hora_do_evento": hora,
+
                     "local_do_evento": local,
+
                     "do_que_trata": trata,
+
                     "tema": tema
+
                 },
+
+
                 "imagem": {
+
                     "proporcao": proporcao,
+
                     "identidade_visual": identidade,
+
+
                     "composicao": {
-                        "foco": "Dar destaque às informações mais importantes do evento",
-                        "hierarquia_visual": "Organizar as informações de forma clara, elegante e de fácil leitura",
-                        "quantidade_de_elementos": "Utilizar poucos elementos visuais, evitando poluição e excesso de informações"
+
+                        "foco":
+                            "Dar máximo destaque às informações mais importantes do evento",
+
+                        "hierarquia_visual":
+                            "Organizar as informações de forma clara, elegante, equilibrada e de fácil leitura",
+
+                        "quantidade_de_elementos":
+                            "Utilizar poucos elementos visuais, evitando poluição, excesso de informações e elementos decorativos desnecessários"
+
                     }
+
                 },
+
+
                 "logos": {
-                    "utilizar_logos_anexadas": true,
-                    "posicao": "Parte superior da imagem",
-                    "preservacao": "Manter as logos exatamente como estão nos anexos",
-                    "alterar_logo": false,
-                    "alterar_cor_da_logo": false,
-                    "distorcer_logo": false
-                },
-                "pessoa_anexada": {
-                    "se_houver": {
-                        "utilizar_imagem_original": true,
-                        "fidelidade": "Utilizar a pessoa 100% igual à imagem anexada",
-                        "rosto": "Não alterar o rosto",
-                        "caracteristicas_fisicas": "Não alterar nenhuma característica física",
-                        "roupas": "Não alterar as roupas",
-                        "expressao": "Não alterar a expressão facial",
-                        "identidade": "Preservar integralmente a identidade e aparência da pessoa"
+
+                    "regra_principal":
+                        "Utilizar SOMENTE logos que estejam realmente presentes nos arquivos anexados pelo usuário. Nunca criar, inventar, reconstruir ou substituir uma logo que não esteja presente.",
+
+                    "se_houver_logo_anexada": {
+
+                        "utilizar_logo_original": true,
+
+                        "posicao":
+                            "Parte superior da imagem, respeitando a composição",
+
+                        "preservacao":
+                            "Manter a logo exatamente como está no anexo",
+
+                        "alterar_logo": false,
+
+                        "alterar_cor_da_logo": false,
+
+                        "distorcer_logo": false,
+
+                        "redesenhar_logo": false,
+
+                        "recriar_logo": false,
+
+                        "modificar_proporcao": false
+
                     },
-                    "se_nao_houver": {
-                        "utilizar_desenho": true,
-                        "estilo": "Desenho leve, elegante e relacionado ao tema do evento",
-                        "objetivo": "Complementar a composição sem competir com as informações principais"
+
+                    "se_nao_houver_logo_anexada": {
+
+                        "utilizar_logo": false,
+
+                        "resultado":
+                            "Não colocar absolutamente nada no espaço destinado à logo",
+
+                        "proibido": [
+
+                            "Criar uma logo fictícia",
+                            "Inventar um símbolo ou marca",
+                            "Criar um ícone para representar a organização",
+                            "Criar texto com aparência de logo",
+                            "Substituir a logo ausente por qualquer outro elemento visual",
+                            "Gerar uma logo baseada no tema do evento"
+
+                        ]
+
                     }
+
                 },
+
+
+                "pessoas": {
+
+                    "regra_principal":
+                        "Nunca criar uma pessoa realista ou adicionar uma pessoa que não esteja presente nos anexos.",
+
+                    "se_houver_pessoa_anexada": {
+
+                        "utilizar_imagem_original": true,
+
+                        "fidelidade":
+                            "Utilizar a pessoa exatamente como aparece na imagem anexada",
+
+                        "rosto":
+                            "Não alterar o rosto",
+
+                        "caracteristicas_fisicas":
+                            "Não alterar nenhuma característica física",
+
+                        "roupas":
+                            "Não alterar as roupas",
+
+                        "expressao":
+                            "Não alterar a expressão facial",
+
+                        "identidade":
+                            "Preservar integralmente a identidade e aparência da pessoa",
+
+                        "proibido": [
+
+                            "Trocar o rosto",
+                            "Modificar características físicas",
+                            "Alterar roupas",
+                            "Alterar a expressão facial",
+                            "Criar uma segunda pessoa",
+                            "Adicionar outras pessoas que não estejam nos anexos",
+                            "Misturar características da pessoa anexada com outra pessoa"
+
+                        ]
+
+                    },
+
+                    "se_nao_houver_pessoa_anexada": {
+
+                        "nao_criar_pessoa_realista": true,
+
+                        "utilizar_ilustracao_tematica": true,
+
+                        "objetivo":
+                            "Criar um elemento visual relacionado diretamente ao tema do evento para complementar a composição, somente quando necessário",
+
+                        "estilos_permitidos": [
+
+                            "Silhueta estilizada",
+                            "Ilustração 2D",
+                            "Ilustração vetorial",
+                            "Desenho artístico",
+                            "Objeto ou personagem conceitual estilizado",
+                            "Ilustração 3D estilizada"
+
+                        ],
+
+                        "estilo_visual":
+                            "Leve, elegante, moderno e visualmente coerente com o tema do evento",
+
+                        "realismo":
+                            "Nunca utilizar aparência fotográfica, hiper-realista ou fotorrealista",
+
+                        "regra_importante":
+                            "A ilustração deve representar o tema do evento, mas nunca deve simular uma fotografia de uma pessoa real.",
+
+                        "preferencia":
+                            "Sempre que possível, priorizar objetos, símbolos, formas e elementos conceituais relacionados ao tema.",
+
+                        "proibido": [
+
+                            "Criar pessoas fotográficas",
+                            "Criar rostos humanos realistas",
+                            "Criar retratos realistas",
+                            "Criar pessoas hiper-realistas",
+                            "Criar pessoas fotorrealistas",
+                            "Inventar palestrantes, convidados ou participantes",
+                            "Adicionar pessoas que não aparecem nos anexos",
+                            "Gerar uma pessoa apenas para preencher espaço"
+
+                        ]
+
+                    }
+
+                },
+
+
+                "texto": {
+
+                    "regra_principal":
+                        "Exibir somente as informações que foram destinadas à composição final da arte.",
+
+                    "informacoes_permitidas": [
+
+                        "Data do evento",
+                        "Horário do evento",
+                        "Local do evento",
+                        "Tema ou título do evento",
+                        "Uma ou, no máximo, duas frases emocionais de efeito, quando fizer sentido"
+
+                    ],
+
+                    "do_que_trata": {
+
+                        "exibir_na_arte": false,
+
+                        "funcao":
+                            "Usar exclusivamente como contexto interno para compreender o assunto, objetivo e contexto do evento",
+
+                        "regra":
+                            "O conteúdo deste campo NUNCA deve aparecer no resultado final da imagem.",
+
+                        "uso":
+                            "Utilizar esta informação somente para orientar a escolha do estilo visual, ilustrações, composição e elementos gráficos relacionados ao tema."
+
+                    },
+
+                    "legibilidade":
+                        "Todo texto que realmente fizer parte da arte deve ser facilmente legível, com hierarquia visual clara e contraste adequado",
+
+                    "excesso_de_texto": false
+
+                },
+
+
                 "direcao_criativa": {
-                    "estilo": "Profissional, moderno, visualmente equilibrado e adequado para divulgação de eventos",
-                    "legibilidade": "Todas as informações essenciais devem ser facilmente identificadas",
-                    "texto": "Evitar excesso de texto e priorizar informações essenciais",
-                    "emocional": "Utilizar uma ou, no máximo, duas frases emocionais de efeito"
+
+                    "estilo":
+                        "Profissional, moderno, visualmente equilibrado e adequado para divulgação de eventos",
+
+                    "legibilidade":
+                        "Todas as informações essenciais devem ser facilmente identificadas e lidas",
+
+                    "texto":
+                        "Exibir somente as informações explicitamente destinadas à arte final.",
+
+                    "emocional":
+                        "Utilizar uma ou, no máximo, duas frases emocionais de efeito, somente se contribuírem para a composição",
+
+                    "prioridade":
+                        "As informações do evento devem ter prioridade visual sobre elementos decorativos",
+
+                    "coerencia":
+                        "Todos os elementos visuais devem estar relacionados ao tema e à identidade visual informados",
+
+                    "minimalismo":
+                        "Manter a composição limpa, sofisticada e visualmente equilibrada"
+
                 },
-                "Prompt Negativo": "Não tenha muitos elementos visuais\nDê foco nas informações importantes\nEvitar colocar muito texto\nColocar uma ou no máximo duas frases de emocional de efeito\nNão alterer a logo\nNão alterar a cor da logo"
+
+
+                "regras_absolutas": {
+
+                    "anexos":
+                        "Os anexos são a fonte principal de referência para logos e pessoas.",
+
+                    "nao_inventar":
+                        "Nunca inventar elementos que deveriam representar uma identidade, pessoa ou marca real e que não estejam presentes nos anexos.",
+
+                    "do_que_trata":
+                        "O campo 'do_que_trata' é exclusivamente informativo e nunca deve ser reproduzido ou exibido na arte final.",
+
+                    "logo_ausente":
+                        "Se não houver logo anexada, NÃO criar, inventar, reconstruir ou substituir por qualquer outro símbolo, ícone ou elemento.",
+
+                    "pessoa_ausente":
+                        "Se não houver nenhuma pessoa nos anexos, NUNCA criar uma pessoa realista, fotorrealista ou hiper-realista.",
+
+                    "pessoa_extra":
+                        "Nunca adicionar pessoas extras além das pessoas presentes nos anexos.",
+
+                    "pessoa_anexada":
+                        "Quando houver uma pessoa anexada, preservar integralmente sua identidade, rosto, características físicas, roupas e expressão.",
+
+                    "logo_anexada":
+                        "Quando houver uma logo anexada, utilizar exatamente a logo fornecida, sem alterar desenho, cores, proporções ou características.",
+
+                    "minimalismo":
+                        "Priorizar uma composição limpa, elegante e com poucos elementos.",
+
+                    "hierarquia":
+                        "As informações mais importantes devem sempre ter maior destaque visual.",
+
+                    "espaco":
+                        "Não preencher espaços vazios desnecessariamente."
+
+                },
+
+
+                "prompt_negativo": [
+
+                    "Não criar logo que não esteja no anexo",
+                    "Não inventar logo",
+                    "Não recriar logo",
+                    "Não redesenhar logo",
+                    "Não modificar logo",
+                    "Não alterar cor da logo",
+                    "Não distorcer logo",
+                    "Não alterar proporção da logo",
+                    "Não substituir logo ausente por símbolo",
+                    "Não substituir logo ausente por ícone",
+                    "Não substituir logo ausente por texto",
+                    "Não criar marca fictícia",
+                    "Não criar pessoas que não estejam nos anexos",
+                    "Não criar pessoas realistas",
+                    "Não criar pessoas fotorrealistas",
+                    "Não criar pessoas hiper-realistas",
+                    "Não criar rostos humanos realistas",
+                    "Não criar retratos fotográficos",
+                    "Não criar palestrantes fictícios",
+                    "Não criar convidados fictícios",
+                    "Não criar participantes fictícios",
+                    "Não adicionar pessoas extras",
+                    "Se não houver pessoa no anexo, utilizar somente ilustração, silhueta ou desenho 3D estilizado relacionado ao tema",
+                    "Não utilizar aparência fotográfica para a ilustração temática",
+                    "Não utilizar uma pessoa realista para representar o tema",
+                    "Não exibir o conteúdo do campo 'do_que_trata'",
+                    "Não utilizar muitos elementos visuais",
+                    "Não poluir a composição",
+                    "Não colocar texto em excesso",
+                    "Não prejudicar a legibilidade das informações",
+                    "Não adicionar elementos decorativos sem relação com o tema",
+                    "Não preencher espaços vazios com elementos desnecessários",
+                    "Não alterar a identidade visual fornecida"
+
+                ]
+
             };
 
-            const jsonString = JSON.stringify(promptObj, null, 2);
-            document.getElementById('outputPrompt').textContent = jsonString;
-            document.getElementById('resultadoContainer').classList.remove('hidden');
-            document.getElementById('resultadoContainer').scrollIntoView({ behavior: 'smooth' });
+
+            const output =
+                document.getElementById('outputPrompt');
+
+            output.textContent =
+                JSON.stringify(promptObj, null, 2);
+
+
+            const resultado =
+                document.getElementById('resultadoContainer');
+
+            resultado.classList.remove('hidden');
+
+
+            setTimeout(() => {
+
+                resultado.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+            }, 150);
+
         }
 
+
+        /* =========================================
+           COPIAR PROMPT
+        ========================================= */
+
         function copiarPrompt() {
-            const textoCodigo = document.getElementById('outputPrompt').textContent;
-            navigator.clipboard.writeText(textoCodigo).then(() => {
-                const btn = document.getElementById('btnCopiar');
-                btn.textContent = "Copiado! ✓";
-                btn.classList.add('bg-emerald-600', 'text-white');
-                setTimeout(() => {
-                    btn.textContent = "Copiar Prompt";
-                    btn.classList.remove('bg-emerald-600', 'text-white');
-                }, 2000);
-            });
+
+            const texto =
+                document.getElementById('outputPrompt')
+                .textContent;
+
+            const btn =
+                document.getElementById('btnCopiar');
+
+            const textoBtn =
+                document.getElementById('textoBtnCopiar');
+
+
+            navigator.clipboard.writeText(texto)
+
+                .then(() => {
+
+                    const textoOriginal =
+                        textoBtn.textContent;
+
+                    textoBtn.textContent =
+                        "Prompt Copiado!";
+
+
+                    btn.classList.remove(
+                        'bg-violet-600',
+                        'hover:bg-violet-500',
+                        'dark:bg-purple-700',
+                        'dark:hover:bg-purple-600'
+                    );
+
+                    btn.classList.add(
+                        'bg-emerald-500',
+                        'hover:bg-emerald-600'
+                    );
+
+
+                    setTimeout(() => {
+
+                        textoBtn.textContent =
+                            textoOriginal;
+
+
+                        btn.classList.remove(
+                            'bg-emerald-500',
+                            'hover:bg-emerald-600'
+                        );
+
+                        btn.classList.add(
+                            'bg-violet-600',
+                            'hover:bg-violet-500',
+                            'dark:bg-purple-700',
+                            'dark:hover:bg-purple-600'
+                        );
+
+                    }, 2000);
+
+                })
+
+                .catch(() => {
+
+                    alert(
+                        'Não foi possível copiar automaticamente. Selecione e copie o prompt manualmente.'
+                    );
+
+                });
+
         }
+
     </script>
+
 </body>
 </html>
